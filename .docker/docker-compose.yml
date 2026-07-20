@@ -1,0 +1,30 @@
+services:
+  client:
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile.client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile.server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ../server/.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

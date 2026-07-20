@@ -1,0 +1,35 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README
+dist
+build
+*.log
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+
+# App-level deps/build outputs
+server/node_modules
+server/dist
+crm/client/node_modules
+crm/client/dist
+crm/client/build
+
+# Docker local artifacts
+.docker
+.gitkeep
+*.md
+.gitattributes
+.editorconfig
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store?
+coverage/
+.nyc_output/

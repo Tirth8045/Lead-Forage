@@ -1,0 +1,39 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: crm_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  server:
+    build:
+      context: ./server
+    container_name: crm_server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    environment:
+      PORT: "5000"
+      MONGO_URI: ${MONGO_URI:-mongodb://mongo:27017/crm}
+    depends_on:
+      - mongo
+
+  client:
+    build:
+      context: ./crm/client
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api}
+    container_name: crm_client
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+
+volumes:
+  mongo_data:
